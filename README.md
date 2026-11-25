@@ -14,7 +14,7 @@ It covers responsive web, iOS/Android, desktop apps and email, with curated rule
 
 **As a plugin** (includes dedicated subagents):
 ```
-/plugin marketplace add <path-or-git-url-of-this-repo>
+/plugin marketplace add qmamushroof/do-design
 /plugin install do-design@do-design
 ```
 
