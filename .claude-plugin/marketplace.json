@@ -1,0 +1,11 @@
+{
+  "name": "do-design",
+  "owner": { "name": "do-design" },
+  "plugins": [
+    {
+      "name": "do-design",
+      "source": "./plugins/do-design",
+      "description": "End-to-end UI/UX design: MCQ interview, web research, brief + IA, design system, clickable prototype, verification and handoff."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Directions — compare</title>
+<style>
+  /* Picker chrome is deliberately neutral so it never competes with the directions. */
+  :root { color-scheme: light dark; --c-bg: #f6f6f5; --c-fg: #1b1b1a; --c-mute: #6b6b68; --c-line: #d9d9d6; --c-on: #1b1b1a; --c-on-fg: #fff; }
+  @media (prefers-color-scheme: dark) { :root { --c-bg: #161615; --c-fg: #ededeb; --c-mute: #a3a39f; --c-line: #33332f; --c-on: #ededeb; --c-on-fg: #161615; } }
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 14px/1.4 system-ui, sans-serif; background: var(--c-bg); color: var(--c-fg); height: 100dvh; display: grid; grid-template-rows: auto auto 1fr; }
+  header { display: flex; gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--c-line); flex-wrap: wrap; }
+  [role="tablist"] { display: flex; gap: 4px; }
+  [role="tab"], .size button { font: inherit; border: 1px solid var(--c-line); background: none; color: inherit; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+  [role="tab"][aria-selected="true"], .size button[aria-pressed="true"] { background: var(--c-on); color: var(--c-on-fg); border-color: var(--c-on); }
+  :focus-visible { outline: 2px solid var(--c-fg); outline-offset: 2px; }
+  .size { display: flex; gap: 4px; margin-left: auto; }
+  #thesis { padding: 8px 16px; color: var(--c-mute); border-bottom: 1px solid var(--c-line); }
+  #thesis b { color: var(--c-fg); font-weight: 600; }
+  main { overflow: auto; display: grid; justify-items: center; padding: 16px; }
+  iframe { width: 100%; height: 100%; min-height: 600px; border: 1px solid var(--c-line); background: #fff; }
+  kbd { font: 12px ui-monospace, monospace; color: var(--c-mute); }
+</style>
+</head>
+<body>
+<header>
+  <div role="tablist" aria-label="Directions" id="tabs"></div>
+  <kbd>1–5 switch · D/M size</kbd>
+  <div class="size" role="group" aria-label="Viewport">
+    <button type="button" data-w="100%" aria-pressed="true">Desktop</button>
+    <button type="button" data-w="390px" aria-pressed="false">Mobile</button>
+  </div>
+</header>
+<p id="thesis" aria-live="polite"></p>
+<main><iframe id="view" title="Direction preview"></iframe></main>
+<script>
+  // EDIT: one entry per direction. file is relative to this page.
+  const DIRECTIONS = [
+    { name: 'Direction one', file: 'one.html', thesis: 'One-sentence thesis.', cost: 'What it trades away.' },
+    { name: 'Direction two', file: 'two.html', thesis: 'One-sentence thesis.', cost: 'What it trades away.' },
+    { name: 'Direction three', file: 'three.html', thesis: 'One-sentence thesis.', cost: 'What it trades away.' },
+  ];
+  const tabs = document.getElementById('tabs'), view = document.getElementById('view'), thesis = document.getElementById('thesis');
+  function show(i) {
+    const d = DIRECTIONS[i]; if (!d) return;
+    view.src = d.file;
+    thesis.innerHTML = `<b>${d.name}</b> — ${d.thesis} <span>Cost: ${d.cost}</span>`;
+    [...tabs.children].forEach((t, j) => { t.setAttribute('aria-selected', j === i); t.tabIndex = j === i ? 0 : -1; });
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  DIRECTIONS.forEach((d, i) => {
+    const b = document.createElement('button');
+    b.role = 'tab'; b.textContent = `${i + 1} · ${d.name}`; b.onclick = () => show(i);
+    tabs.append(b);
+  });
+  function size(w) { view.style.width = w; document.querySelectorAll('.size button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.w === w)); }
+  document.querySelectorAll('.size button').forEach((b) => b.onclick = () => size(b.dataset.w));
+  addEventListener('keydown', (e) => {
+    if (e.target.closest('input, textarea')) return;
+    if (/^[1-5]$/.test(e.key)) show(+e.key - 1);
+    if (e.key === 'd') size('100%');
+    if (e.key === 'm') size('390px');
+  });
+  show(Math.max(0, (+location.hash.slice(1) || 1) - 1));
+</script>
+</body>
+</html>
