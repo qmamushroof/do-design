@@ -2,6 +2,6 @@
   "name": "do-design",
   "version": "0.1.0",
   "description": "End-to-end UI/UX design: MCQ interview, web research, brief + IA, design system, clickable prototype, verification and handoff.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": ["design", "ui", "ux", "prototype", "design-system", "accessibility"]
 }
