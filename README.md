@@ -67,6 +67,3 @@ plugins/do-design/
     scripts/              doctor, tokens, contrast, lint, shoot (Node, no deps)
 scripts/build.mjs         builds dist/do-design standalone skill (+ --install)
 ```
-
-## License
-MIT
