@@ -7,6 +7,18 @@
 - Every screen includes at least one edge case in its default state (long string, empty optional field, 0 count) to prove the layout holds.
 - Images: domain-specific and consistent in treatment. Mark placeholders clearly in the handoff. No people-stock clichés (handshakes, laptop smiles).
 
+## Source of truth
+- Identifiers, schema names, error codes, routes and fixed copy strings come verbatim from the project docs listed in `state.md` `## Doc constraints`, with a `file:line` source. Never write them from memory.
+- If the docs don't define something the UI needs, use a clearly marked placeholder and record `GAP: <what>` (builders) or `NEW (needs owner)` (content model). Never invent a code that looks official.
+- Doc copy still follows the punctuation rules below. Report each change you make to doc copy, and add it to `## Doc deltas` in `state.md`.
+
+## Punctuation
+- **No em dashes (U+2014)** in UI copy, generated docs, AskUserQuestion text or code string literals. Use a comma, colon, full stop or parentheses: "Run 1: 7 findings", "Fix next", "Not checked (reason)". `lint.mjs` errors on them.
+- En dash (–) only for numeric ranges: "3–5 days", "09:00–17:00".
+- Minus sign (−, U+2212) for negative numbers in display text; hyphen-minus in code.
+- Middle dot (·) as a meta-line separator, at most 3 items per line.
+- Curly quotes and apostrophes in display text; × for dimensions.
+
 ## UX writing
 - Buttons say what happens: verb + object ("Save changes", "Send invoice", "Create project"). Never "Submit", "OK", "Click here".
 - Headlines state the value in this product's terms. Specific beats clever.
